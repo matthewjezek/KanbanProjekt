@@ -1,0 +1,27 @@
+﻿@page "/createform"
+@using Data
+@inject KanbanKontext KanbanCtx
+@rendermode InteractiveServer
+
+<div class="form-container">
+	<form>
+		<h1>Přidat sloupec</h1>
+		<label for="Title">Nadpis</label>
+		<input id="Title" type="text" @bind="newTitle" />
+		<label for="Color">Barva</label>
+		<input id="Color" type="color" @bind="newColor" />
+		<button @onclick="AddColumn">Vytvořit</button>
+	</form>
+</div>
+
+@code {
+	public string newTitle;
+	public string newColor;
+
+	public void AddColumn()
+	{
+		KanbanCtx.Add(new ColumnModel(newTitle, newColor));
+		newTitle = "";
+		newColor = "#f4f4f4";
+	}
+}

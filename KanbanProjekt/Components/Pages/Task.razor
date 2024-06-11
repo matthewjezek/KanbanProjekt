@@ -1,0 +1,19 @@
+﻿@using Data
+
+<div class="kanban-card">
+	<b>
+		@Card.Title
+	</b>
+	<p>
+		@Card.Description
+	</p>
+	<i>
+		@Card.Deadline
+	</i>
+</div>
+
+
+@code {
+	[Parameter]
+	public TaskItem Card { get; set; }
+}

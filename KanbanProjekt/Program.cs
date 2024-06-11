@@ -1,4 +1,5 @@
 using KanbanProjekt.Components;
+using KanbanProjekt.Data;
 
 namespace KanbanProjekt
 {
@@ -11,6 +12,8 @@ namespace KanbanProjekt
 			// Add services to the container.
 			builder.Services.AddRazorComponents()
 				.AddInteractiveServerComponents();
+			builder.Services.AddDbContext<KanbanKontext>();
+
 
 			var app = builder.Build();
 

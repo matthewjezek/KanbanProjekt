@@ -1,7 +1,22 @@
 ﻿@page "/"
+@using Data
+@using System.Linq
+@using Microsoft.EntityFrameworkCore
+@inject KanbanKontext KanbanCtx
+@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+<div class="kanban-board">
+	@foreach (ColumnModel column in Cols)
+	{
+		<Column Column="column"></Column>
+	}
+</div>
 
-<h1>Hello, world!</h1>
+@code {
 
-Welcome to your new app.
+	public List<ColumnModel>? Cols { get; set; }
+	protected override void OnInitialized()
+	{
+		Cols = KanbanCtx.Columns.Include(c => c.TaskItems).ToList();
+	}
+}

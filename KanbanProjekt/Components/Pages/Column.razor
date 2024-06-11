@@ -1,0 +1,27 @@
+﻿@using Data
+@inject NavigationManager NavMan
+
+
+<div class="kanban-column" style="background-color: @Col.BoxColor">
+	<h2>@Col.Title</h2>
+	@if (Col.TaskItems != null)
+	{
+		@foreach (var card in Col.TaskItems)
+		{
+			<Task Card="card"></Task>
+		}
+	}
+	<button class="circular-button" @onclick="GoToForm">Upravit</button>
+</div>
+
+
+@code {
+	[Parameter]
+	public ColumnModel Col { get; set; }
+
+
+	private void GoToForm()
+	{
+		NavMan.NavigateTo($"/editform/{Col.Id}");
+	}
+}

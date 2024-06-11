@@ -1,0 +1,70 @@
+﻿@page "/editform/{id:int}"
+@using Data
+@using Microsoft.EntityFrameworkCore
+@inject KanbanKontext KanbanCtx
+@inject NavigationManager NavMan
+@rendermode InteractiveServer
+
+@if (Column != null)
+{
+	<div class="form-container">
+		<h1>Add Card</h1>
+		<form>
+			<label for="Title">Title</label>
+			<input id="Title" type="text" @bind="newTitle" />
+			<label for="Description">Description</label>
+			<input id="Description" type="text" @bind="newDescription" />
+			<input type="date" @bind="newDeadline" />
+			<button @onclick="AddItem">Add Item</button>
+		</form>
+	</div>
+
+	<div class="form-container">
+		<h1>Edit Column</h1>
+		<form>
+			<label for"Title">Title</label>
+			<input id="Title" type="text" @bind="Column.Title" />
+			<label for"Color">Colour</label>
+			<input id="Color" type="color" @bind="Column.BoxColor" />
+		</form>
+	</div>
+	<div class="form-container">
+		<h1>Delete Column</h1>
+		<button class="button-red" @onclick="DeleteColumn">DELETE</button>
+	</div>
+}
+else
+{
+	<p>nothing here</p>
+}
+
+
+@code {
+	[Parameter]
+	public int Id { get; set; }
+
+	public ColumnModel? Column { get; set; }
+
+	private string newTitle;
+	private string? newDescription;
+	private DateOnly? newDeadline;
+
+	protected override void OnInitialized()
+	{
+		Column = KanbanCtx.Columns.Include(c => c.TaskItems).ToList().Find(c => c.Id == Id);
+	}
+	private void AddItem()
+	{
+		if (Column != null)
+		{
+			Column.TaskItems.Add(new TaskItem() { Title = newTitle, Description = newDescription, Deadline = newDeadline });
+		}
+		newTitle = "";
+		newDescription = "";
+	}
+	private void DeleteColumn()
+	{
+		KanbanCtx.Columns.Include(c => c.TaskItems).ToList().Remove(Column);
+		NavMan.NavigateTo($"/");
+	}
+}
