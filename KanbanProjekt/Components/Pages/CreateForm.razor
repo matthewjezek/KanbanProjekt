@@ -11,7 +11,7 @@
         <h1>Přidat sloupec</h1>
         <div>
             <label for="Title">Nadpis</label>
-            <InputText id="Title" @bind-Value="newColumn.Title" />
+            <InputText id="Title" @bind-Value="newColumn.Title" type="text" />
             <ValidationMessage For="() => newColumn.Title" />
         </div>
         <div>

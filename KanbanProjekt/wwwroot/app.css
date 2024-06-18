@@ -108,7 +108,7 @@ nav.navbar {
 }
 
     .form-container h1 {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
 
     .form-container label {
@@ -121,7 +121,7 @@ nav.navbar {
     .form-container input[type="date"],
     .form-container input[type="color"] {
         width: 100%;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
