@@ -1,22 +1,30 @@
 ﻿@page "/"
 @using Data
-@using System.Linq
+@using System
 @using Microsoft.EntityFrameworkCore
 @inject KanbanKontext KanbanCtx
+@inject NavigationManager NavMan
 @rendermode InteractiveServer
 
 <div class="kanban-board">
 	@foreach (ColumnModel column in Cols)
 	{
-		<Column Column="column"></Column>
+		<Column Col="column"></Column>
 	}
+	@*<button @onclick="CreateForm">Přidejte první sloupec</button>*@
 </div>
 
 @code {
 
 	public List<ColumnModel>? Cols { get; set; }
+
 	protected override void OnInitialized()
 	{
 		Cols = KanbanCtx.Columns.Include(c => c.TaskItems).ToList();
+	}
+
+	private void CreateForm()
+	{
+		NavMan.NavigateTo("/createform");
 	}
 }

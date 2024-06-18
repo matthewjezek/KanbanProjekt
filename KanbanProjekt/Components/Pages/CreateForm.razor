@@ -1,27 +1,34 @@
 ﻿@page "/createform"
 @using Data
+@using Microsoft.AspNetCore.Components.Forms
 @inject KanbanKontext KanbanCtx
 @rendermode InteractiveServer
 
 <div class="form-container">
-	<form>
-		<h1>Přidat sloupec</h1>
-		<label for="Title">Nadpis</label>
-		<input id="Title" type="text" @bind="newTitle" />
-		<label for="Color">Barva</label>
-		<input id="Color" type="color" @bind="newColor" />
-		<button @onclick="AddColumn">Vytvořit</button>
-	</form>
+    <Microsoft.AspNetCore.Components.Forms.EditForm Model="newColumn" OnValidSubmit="AddColumn">
+        <DataAnnotationsValidator />
+
+        <h1>Přidat sloupec</h1>
+        <div>
+            <label for="Title">Nadpis</label>
+            <InputText id="Title" @bind-Value="newColumn.Title" />
+            <ValidationMessage For="() => newColumn.Title" />
+        </div>
+        <div>
+            <label for="Color">Barva</label>
+            <InputText id="Color" @bind-Value="newColumn.BoxColor" type="color" />
+        </div>
+        <button type="submit">Vytvořit</button>
+    </Microsoft.AspNetCore.Components.Forms.EditForm>
 </div>
 
 @code {
-	public string newTitle;
-	public string newColor;
+    private ColumnModel newColumn = new ColumnModel();
 
-	public void AddColumn()
-	{
-		KanbanCtx.Add(new ColumnModel(newTitle, newColor));
-		newTitle = "";
-		newColor = "#f4f4f4";
-	}
+    private void AddColumn()
+    {
+        KanbanCtx.Add(newColumn);
+        KanbanCtx.SaveChanges();
+        newColumn = new ColumnModel();
+    }
 }

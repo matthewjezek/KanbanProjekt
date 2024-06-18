@@ -8,29 +8,29 @@
 @if (Column != null)
 {
 	<div class="form-container">
-		<h1>Add Card</h1>
+		<h1>Přidat úkol</h1>
 		<form>
-			<label for="Title">Title</label>
+			<label for="Title">Nadpis</label>
 			<input id="Title" type="text" @bind="newTitle" />
-			<label for="Description">Description</label>
+			<label for="Description">Popis</label>
 			<input id="Description" type="text" @bind="newDescription" />
 			<input type="date" @bind="newDeadline" />
-			<button @onclick="AddItem">Add Item</button>
+			<button @onclick="AddItem">Přidat úkol</button>
 		</form>
 	</div>
 
 	<div class="form-container">
-		<h1>Edit Column</h1>
+		<h1>Upravit sloupec @Column.Title</h1>
 		<form>
-			<label for"Title">Title</label>
+			<label for"Title">Nadpis</label>
 			<input id="Title" type="text" @bind="Column.Title" />
-			<label for"Color">Colour</label>
+			<label for"Color">Barva</label>
 			<input id="Color" type="color" @bind="Column.BoxColor" />
 		</form>
 	</div>
 	<div class="form-container">
-		<h1>Delete Column</h1>
-		<button class="button-red" @onclick="DeleteColumn">DELETE</button>
+		<h1>Smazat sloupec</h1>
+		<button class="button-red" @onclick="DeleteColumn">Odstranit</button>
 	</div>
 }
 else
@@ -58,13 +58,18 @@ else
 		if (Column != null)
 		{
 			Column.TaskItems.Add(new TaskItem() { Title = newTitle, Description = newDescription, Deadline = newDeadline });
+			KanbanCtx.SaveChanges();
 		}
 		newTitle = "";
 		newDescription = "";
 	}
 	private void DeleteColumn()
 	{
-		KanbanCtx.Columns.Include(c => c.TaskItems).ToList().Remove(Column);
-		NavMan.NavigateTo($"/");
+		if (Column != null)
+		{
+			KanbanCtx.Columns.Remove(Column);
+			KanbanCtx.SaveChanges();
+			NavMan.NavigateTo("/");
+		}
 	}
 }
