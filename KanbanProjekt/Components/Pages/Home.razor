@@ -7,11 +7,17 @@
 @rendermode InteractiveServer
 
 <div class="kanban-board">
-	@foreach (ColumnModel column in Cols)
-	{
-		<Column Col="column"></Column>
-	}
-	@*<button @onclick="CreateForm">Přidejte první sloupec</button>*@
+    @if (Cols == null || !Cols.Any())
+    {
+        <a href="/createform" class="button">Přidejte první sloupec </a>
+    }
+    else
+    {
+        @foreach (ColumnModel column in Cols)
+        {
+            <Column Col="column"></Column>
+        }
+    }
 </div>
 
 @code {
