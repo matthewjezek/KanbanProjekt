@@ -63,7 +63,11 @@ nav.navbar {
 }
 
 .kanban-column {
-    flex-shrink: 0;
+    display: flex;
+    flex-direction:column;
+    flex-shrink: 3;
+    align-items:center;
+    justify-content:space-between;
     width: 300px;
     min-width: 200px;
     padding: 10px;
@@ -76,9 +80,23 @@ nav.navbar {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+    .kanban-column button.col-edit-button {
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #d2d2d2;
+        background-color: #f4f4f4;
+        transition: background-color 0.3s;
+        color: black;
+        font-size: 16px;
+        text-decoration: none;
+        width: 70px;
+        margin: 1px 1px 1px 1px;
+    }
+
 .kanban-card {
     background-color: #fff;
     padding: 10px;
+    padding-inline: auto;
     margin: 10px 10px 10px 10px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

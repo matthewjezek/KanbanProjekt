@@ -1,0 +1,60 @@
+﻿@page "/edittask/{taskId:int}"
+@using Data
+@using Microsoft.EntityFrameworkCore
+@inject KanbanKontext KanbanCtx
+@inject NavigationManager NavMan
+
+@if (Task != null)
+{
+    <div class="form-container">
+        <h1>Upravit úkol</h1>
+        <form>
+            <label for="Title">Nadpis</label>
+            <input id="Title" type="text" @bind="Task.Title" />
+            <label for="Description">Popis</label>
+            <input id="Description" type="text" @bind="Task.Description" />
+            <input type="date" @bind="Task.Deadline" />
+            <button @onclick="UpdateTask">Aktualizovat úkol</button>
+        </form>
+    </div>
+
+    <div class="form-container">
+        <h1>Delete Task</h1>
+        <button class="button-red" @onclick="DeleteTask">Delete</button>
+    </div>
+}
+else
+{
+    <p>Tady nic není...</p>
+}
+
+@code {
+    [Parameter]
+    public int TaskId { get; set; }
+
+    public TaskItem Task { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Task = KanbanCtx.TaskItems.Find(TaskId);
+    }
+
+    private void UpdateTask()
+    {
+        if (Task != null)
+        {
+            KanbanCtx.SaveChanges();
+            NavMan.NavigateTo("/"); // Navigate back to Kanban board or list view
+        }
+    }
+
+    private void DeleteTask()
+    {
+        if (Task != null)
+        {
+            KanbanCtx.TaskItems.Remove(Task);
+            KanbanCtx.SaveChanges();
+            NavMan.NavigateTo("/"); // Navigate back to Kanban board or list view
+        }
+    }
+}
